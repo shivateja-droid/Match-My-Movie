@@ -12,6 +12,11 @@ st.set_page_config(
     page_icon="🎬",
     layout="wide"
 )
+current_dir = os.path.dirname(__file__)
+file_path = os.path.join(current_dir, 'movies_list.pkl')
+movies = pickle.load(open(file_path, 'rb'))
+movies = pd.DataFrame(movies)
+
 @st.cache_resource
 def get_similarity():
     cv = CountVectorizer(max_features=2500, stop_words='english')
@@ -19,7 +24,7 @@ def get_similarity():
     return cosine_similarity(vector).astype('float32')
 @st.cache_data
 def get_poster_path(movie_title, release_year):
-    api_key = "45031b9ed78f35196bb9ef5f4d2a366c"
+    api_key = st.secrets["tmdb_api_key"]
     url = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={movie_title}"
     try:
         response = requests.get(url, timeout=5).json()
@@ -67,10 +72,6 @@ def recommend(movie_title):
 
 st.title('Movie recommender')
 
-current_dir = os.path.dirname(__file__)
-file_path = os.path.join(current_dir, 'movies_list.pkl')
-movies = pickle.load(open(file_path, 'rb'))
-movies = pd.DataFrame(movies)
 similarity = get_similarity()
 
 ott_list = st.selectbox(
