@@ -5,6 +5,7 @@ import requests
 import streamlit as st
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
 
 st.set_page_config(
     page_title="Match My Movie",
@@ -66,7 +67,9 @@ def recommend(movie_title):
 
 st.title('Movie recommender')
 
-movies = pickle.load(open('movies_list.pkl', 'rb'))
+current_dir = os.path.dirname(__file__)
+file_path = os.path.join(current_dir, 'movies_list.pkl')
+movies = pickle.load(open('file_path', 'rb'))
 movies = pd.DataFrame(movies)
 similarity = get_similarity()
 
