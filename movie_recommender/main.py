@@ -14,9 +14,9 @@ st.set_page_config(
 )
 @st.cache_resource
 def get_similarity():
-    cv = CountVectorizer(max_features=5000, stop_words='english')
+    cv = CountVectorizer(max_features=2500, stop_words='english')
     vector = cv.fit_transform(movies['tags'])
-    return cosine_similarity(vector)
+    return cosine_similarity(vector).astype('float32')
 @st.cache_data
 def get_poster_path(movie_title, release_year):
     api_key = "45031b9ed78f35196bb9ef5f4d2a366c"
