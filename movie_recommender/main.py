@@ -69,7 +69,7 @@ st.title('Movie recommender')
 
 current_dir = os.path.dirname(__file__)
 file_path = os.path.join(current_dir, 'movies_list.pkl')
-movies = pickle.load(open('file_path', 'rb'))
+movies = pickle.load(open(file_path, 'rb'))
 movies = pd.DataFrame(movies)
 similarity = get_similarity()
 
